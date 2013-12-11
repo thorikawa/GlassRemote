@@ -1,12 +1,21 @@
 MyGlazz
 =======
 
-Yet Another My Glass app running on PC.
+The purpose of My Glazz project is re-inventing My Glass app running on PC. My Glazz uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass. So you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
+
+Currently it supports `screencast` feature which mirros your glass screen to PC. More features are comming soon.
+
+<img src="http://drive.google.com/uc?export=view&id=0ByzlHFEwpidNVjRKTi01am1DNUE" width="300" />
+<img src="http://drive.google.com/uc?export=view&id=0ByzlHFEwpidNR0JJcE12a2RHOWM" width="300" />
+<img src="http://drive.google.com/uc?export=view&id=0ByzlHFEwpidNRkVsWmVEZV9DTWM" width="300" />
 
 ## Requirements
-* JRE 1.6 or later
-* Bluetooth is turning on
-* ADB or Android SDK is NOT required (!)
+* JRE 1.6 or later has to be installed.
+* Bluetooth has to be turned on.
+* Make sure your "real" My Glass app is not connected to Google Glass.
+
+## Download
+[v0.1.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.1.0/myglazz.jar)
 
 ## Usage
 
