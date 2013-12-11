@@ -1,24 +1,11 @@
-/*
- * Copyright (C) 2013 Poly's Factory
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.polysfactory.myglazz.awt;
+package com.polysfactory.myglazz.awt.model;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.bluetooth.BluetoothStateException;
@@ -35,38 +22,60 @@ import javax.microedition.io.StreamConnection;
 import com.google.glass.companion.CompanionMessagingUtil;
 import com.google.glass.companion.GlassProtocol;
 import com.google.glass.companion.Proto.Envelope;
-import com.google.glass.companion.Proto.ScreenShot;
 
+/**
+ * Handling connection with Google Glass companion service
+ * 
+ * @author poly
+ * 
+ */
 public class GlassConnection {
 
     private static final String SECURE_UUID = "F15CC914E4BC45CE9930CB7695385850";
-    private DiscoveryAgent discoveryAgent;
-    private String connectionURL;
-    private StreamConnection streamConnection;
-    private OutputStream outStream;
-    private InputStream inStream;
-    private GlassConnectionListener listener;
+    private DiscoveryAgent mDiscoveryAgent;
+    private String mConnectionURL;
+    private StreamConnection mStreamConnection;
+    private OutputStream mOutStream;
+    private InputStream mInStream;
+    private GlassConnectionListener mListener;
     private GlassReaderThread mGlassReaderThread;
+    private final Client mClient;
+    private final Object mListenerLock = new Object();
 
     public GlassConnection() {
         LocalDevice localDevice;
         try {
             localDevice = LocalDevice.getLocalDevice();
-            discoveryAgent = localDevice.getDiscoveryAgent();
+            mDiscoveryAgent = localDevice.getDiscoveryAgent();
         } catch (BluetoothStateException e) {
+            e.printStackTrace();
+        }
+        mClient = new Client();
+    }
+
+    public List<Device> getBondedDevices() {
+        RemoteDevice[] devices = mDiscoveryAgent.retrieveDevices(DiscoveryAgent.PREKNOWN);
+        List<Device> list = new ArrayList<Device>();
+        for (RemoteDevice remoteDevice : devices) {
+            list.add(new Device(remoteDevice));
+        }
+        return list;
+    }
+
+    public void search() {
+        try {
+            mDiscoveryAgent.startInquiry(DiscoveryAgent.GIAC, mClient);
+        } catch (BluetoothStateException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public RemoteDevice[] getBondedDevices() {
-        return discoveryAgent.retrieveDevices(DiscoveryAgent.PREKNOWN);
-    }
-
-    public void connect(RemoteDevice device) {
+    public void connect(Device device) {
         UUID[] uuidSet = new UUID[1];
         uuidSet[0] = new UUID(SECURE_UUID, false);
         try {
-            discoveryAgent.searchServices(null, uuidSet, device, new Client());
+            mDiscoveryAgent.searchServices(null, uuidSet, device.getRemoteDevice(), mClient);
         } catch (BluetoothStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -82,9 +91,9 @@ public class GlassConnection {
                 e1.printStackTrace();
             }
         }
-        if (streamConnection != null) {
+        if (mStreamConnection != null) {
             try {
-                streamConnection.close();
+                mStreamConnection.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -92,19 +101,28 @@ public class GlassConnection {
     }
 
     public void setListener(GlassConnectionListener listener) {
-        this.listener = listener;
+        synchronized (mListenerLock) {
+            this.mListener = listener;
+        }
     }
 
     private class Client implements DiscoveryListener {
 
         @Override
-        public void deviceDiscovered(RemoteDevice arg0, DeviceClass arg1) {
+        public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
             // TODO Auto-generated method stub
+
+            // TODO filter glass?
             System.out.println("deviceDiscovered");
+            synchronized (mListenerLock) {
+                if (mListener != null) {
+                    mListener.onDeviceDiscovered(new Device(btDevice));
+                }
+            }
         }
 
         @Override
-        public void inquiryCompleted(int arg0) {
+        public void inquiryCompleted(int discType) {
             // TODO Auto-generated method stub
             System.out.println("inquiryCompleted");
         }
@@ -112,25 +130,39 @@ public class GlassConnection {
         @Override
         public void serviceSearchCompleted(int transID, int respCode) {
             // TODO Auto-generated method stub
-            System.out.println("serviceSearchCompleted");
+            System.out.println("serviceSearchCompleted:" + respCode);
+            if (respCode == DiscoveryListener.SERVICE_SEARCH_NO_RECORDS) {
+                synchronized (mListenerLock) {
+                    if (mListener != null) {
+                        mListener.onServiceNotFound();
+                    }
+                }
+            } else if (respCode == DiscoveryListener.SERVICE_SEARCH_ERROR) {
+                synchronized (mListenerLock) {
+                    if (mListener != null) {
+                        mListener.onServiceSearchError();
+                    }
+                }
+            }
         }
 
         @Override
         public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
-            connectionURL = null;
+            mConnectionURL = null;
             if (servRecord != null && servRecord.length > 0) {
                 ServiceRecord service = servRecord[0];
-                connectionURL = service.getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
-                System.out.println(connectionURL);
+                mConnectionURL = service.getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
+                System.out.println(mConnectionURL);
             }
 
             try {
-                streamConnection = (StreamConnection) Connector.open(connectionURL);
-                outStream = streamConnection.openOutputStream();
-                inStream = streamConnection.openInputStream();
+                mStreamConnection = (StreamConnection) Connector.open(mConnectionURL);
+                mOutStream = mStreamConnection.openOutputStream();
+                mInStream = mStreamConnection.openInputStream();
                 mGlassReaderThread = new GlassReaderThread();
                 mGlassReaderThread.start();
 
+                // handshaking
                 Envelope envelope = CompanionMessagingUtil.newEnvelope();
                 envelope.timezoneC2G = TimeZone.getDefault().getID();
                 write(envelope);
@@ -141,12 +173,11 @@ public class GlassConnection {
                     e.printStackTrace();
                 }
 
-                Envelope envelope2 = CompanionMessagingUtil.newEnvelope();
-                ScreenShot screenShot = new ScreenShot();
-                screenShot.startScreenshotRequestC2G = true;
-                envelope2.screenshot = screenShot;
-                write(envelope2);
-
+                synchronized (mListenerLock) {
+                    if (mListener != null) {
+                        mListener.onConnectionOpened();
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -155,14 +186,22 @@ public class GlassConnection {
 
     public void write(Envelope envelope) {
         try {
-            GlassProtocol.writeMessage(envelope, outStream);
+            GlassProtocol.writeMessage(envelope, mOutStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public interface GlassConnectionListener {
+        public abstract void onDeviceDiscovered(Device device);
+
+        public abstract void onServiceSearchError();
+
         public abstract void onReceivedEnvelope(Envelope envelope);
+
+        public abstract void onServiceNotFound();
+
+        public abstract void onConnectionOpened();
     }
 
     private class GlassReaderThread extends Thread {
@@ -170,9 +209,11 @@ public class GlassConnection {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
-                        Envelope envelope = (Envelope) GlassProtocol.readMessage(new Envelope(), inStream);
-                        if (listener != null && envelope != null) {
-                            listener.onReceivedEnvelope(envelope);
+                        Envelope envelope = (Envelope) GlassProtocol.readMessage(new Envelope(), mInStream);
+                        synchronized (mListenerLock) {
+                            if (mListener != null && envelope != null) {
+                                mListener.onReceivedEnvelope(envelope);
+                            }
                         }
                     } catch (InterruptedIOException ie) {
                         Thread.currentThread().interrupt();
