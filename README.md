@@ -8,9 +8,8 @@ Currently it supports `screencast` feature which mirros your glass screen to PC.
 <img src="http://drive.google.com/uc?export=view&id=0ByzlHFEwpidNRkVsWmVEZV9DTWM" width="300" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://drive.google.com/uc?export=view&id=0ByzlHFEwpidNVjRKTi01am1DNUE" width="300" />
 
 ## Requirements
-* JRE 1.6 or later has to be installed.
-* Bluetooth has to be turned on.
-* Make sure your "real" My Glass app is not connected to Google Glass.
+* JRE 1.6 or later.
+* Bluetooth connection
 
 ## Download
 [v0.1.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.1.0/myglazz.jar)
@@ -18,6 +17,7 @@ Currently it supports `screencast` feature which mirros your glass screen to PC.
 ## Usage
 
 * Make sure bluetooth is on.
+* Make sure your "real" My Glass app is not connected to Google Glass.
 * Pair your glass in advance.
 * Download jar file and just double click it.
 
