@@ -12,7 +12,7 @@ Currently it supports `screencast` feature which mirros your glass screen to PC.
 * Bluetooth connection
 
 ## Download
-[v0.2.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.2.0/myglazz.jar)
+[v0.2.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.2.0/myglazz-awt-0.2.0.jar)
 
 ## Usage
 
