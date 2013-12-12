@@ -17,7 +17,9 @@ Currently it supports `screencast` feature which mirros your glass screen to PC.
 
 ## Usage
 
-Download jar file and just double click it.
+* Make sure bluetooth is on.
+* Pair your glass in advance.
+* Download jar file and just double click it.
 
 ## Release Notes
 
