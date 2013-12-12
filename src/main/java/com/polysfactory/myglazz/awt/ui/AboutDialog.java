@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.polysfactory.myglazz.awt;
+package com.polysfactory.myglazz.awt.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -94,27 +94,24 @@ public class AboutDialog extends JDialog {
         containger.add(container1, BorderLayout.CENTER);
         containger.add(buttonOK, BorderLayout.SOUTH);
 
-        // Key
-        {
-            AbstractAction actionOK = new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    onOK();
-                }
-            };
-            AbstractAction actionCancel = new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    onCancel();
-                }
-            };
+        AbstractAction actionOK = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        };
+        AbstractAction actionCancel = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        };
 
-            JComponent targetComponent = getRootPane();
-            InputMap inputMap = targetComponent.getInputMap();
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "OK");
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
-            targetComponent.setInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, inputMap);
-            targetComponent.getActionMap().put("OK", actionOK);
-            targetComponent.getActionMap().put("Cancel", actionCancel);
-        }
+        JComponent targetComponent = getRootPane();
+        InputMap inputMap = targetComponent.getInputMap();
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "OK");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+        targetComponent.setInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, inputMap);
+        targetComponent.getActionMap().put("OK", actionOK);
+        targetComponent.getActionMap().put("Cancel", actionCancel);
     }
 
     private void onOK() {
