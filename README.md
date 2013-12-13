@@ -31,6 +31,13 @@ The purpose of My Glazz project is re-inventing My Glass app running on PC. My G
 
 See [Release page](https://github.com/thorikawa/MyGlazz/releases) for more detail.
 
+## Future Plan
+* Full screen support
+* Improve swipe recognition by mouse
+* Better look and feel
+* Stabilize Bluetooth behavior
+* Error handling
+
 ## License
 
 [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -43,12 +50,3 @@ It also uses following open source libraries:
 
 * [BlueCove](http://bluecove.org/) for Bluetooth communication.
 * [GlassBluetoothProtocol](https://github.com/thorikawa/GlassBluetoothProtocol) for communicating with Google Glass.
-
-## Contributing
-
-Please fork this repository and contribute back using
-[pull requests](https://github.com/thorikawa/MyGlazz/pulls).
-
-Any contributions, large or small, major features, bug fixes, additional
-language translations, unit/integration tests are welcomed and appreciated
-but will be thoroughly reviewed and discussed.
