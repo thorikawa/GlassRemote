@@ -16,7 +16,7 @@ The purpose of My Glazz project is re-inventing My Glass app running on PC. My G
 * Bluetooth connection
 
 ## Download
-[v0.3.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.2.0/myglazz-awt-0.3.0.jar)
+[v0.3.0 Executable Jar File](https://github.com/thorikawa/MyGlazz/releases/download/v0.3.0/myglazz-awt-0.3.0.jar)
 
 ## Usage
 
