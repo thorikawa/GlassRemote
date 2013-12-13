@@ -44,8 +44,10 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 
 import com.google.glass.companion.CompanionMessagingUtil;
+import com.google.glass.companion.Proto.CompanionInfo;
 import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.GlassInfoResponse;
+import com.google.glass.companion.Proto.MotionEvent;
 import com.google.glass.companion.Proto.ScreenShot;
 import com.google.googlex.glass.common.proto.TimelineNano;
 import com.google.googlex.glass.common.proto.TimelineNano.SourceType;
@@ -54,11 +56,13 @@ import com.polysfactory.myglazz.awt.model.Device;
 import com.polysfactory.myglazz.awt.model.GlassConnection;
 import com.polysfactory.myglazz.awt.model.GlassConnection.GlassConnectionListener;
 import com.polysfactory.myglazz.awt.ui.ControlPanel.ControlPanelListener;
+import com.polysfactory.myglazz.awt.ui.ScreencastPanel.ScreencastMouseEventListener;
 import com.polysfactory.myglazz.awt.util.ImageUtil;
 import com.polysfactory.myglazz.awt.util.SwingUtil;
 
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame implements GlassConnectionListener, ControlPanelListener {
+public class MainFrame extends JFrame implements GlassConnectionListener, ControlPanelListener,
+        ScreencastMouseEventListener {
 
     private static final String TITLE = "MyGlazz";
 
@@ -207,6 +211,7 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
 
         mScreencastPanel = new ScreencastPanel();
         mScreencastPanel.setZoom(mZoom);
+        mScreencastPanel.setScreencastMouseEventListener(this);
         add(mScreencastPanel, BorderLayout.CENTER);
 
         mControlPanel = new ControlPanel();
@@ -363,6 +368,11 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
                     + "bytes available";
             mInfoPanel.setText(info);
         }
+        if (envelope.companionInfo != null) {
+            CompanionInfo companionInfo = envelope.companionInfo;
+            String log = companionInfo.responseLog;
+            System.out.println(log);
+        }
     }
 
     @Override
@@ -408,6 +418,15 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
     @Override
     public void onDeviceScanCompleted() {
         // TODO Auto-generated method stub
+    }
 
+    @Override
+    public void onMouseEvent(int action, int x, int y, long downTime) {
+        MotionEvent glassMotionEvent = SwingUtil.MouseEvent2MotionEvent(action, 100.0f * (float) x
+                / (float) mScreencastPanel.getWidth(), 100.0f * (float) y / (float) mScreencastPanel.getHeight(),
+                downTime);
+        Envelope envelope = CompanionMessagingUtil.newEnvelope();
+        envelope.motionC2G = glassMotionEvent;
+        mGlassConnection.writeAsync(envelope);
     }
 }

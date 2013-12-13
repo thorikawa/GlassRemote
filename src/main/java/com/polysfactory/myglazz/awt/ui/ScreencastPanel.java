@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -13,6 +16,7 @@ public class ScreencastPanel extends JPanel {
 
     private BufferedImage mImage;
     private double mZoom;
+    private ScreencastMouseEventListener mListener;
     private static final int DEFAULT_WIDTH = 640;
     private static final int DEFAULT_HEIGHT = 360;
     private static int mWidth = DEFAULT_WIDTH;
@@ -22,6 +26,8 @@ public class ScreencastPanel extends JPanel {
         setBackground(Color.BLACK);
         mZoom = 1.0;
         setPreferredSize(new Dimension(mWidth, mHeight));
+        addMouseListener(mMouseListener);
+        addMouseMotionListener(mMouseMotionListener);
     }
 
     @Override
@@ -73,5 +79,70 @@ public class ScreencastPanel extends JPanel {
             mWidth = dstWidth;
             mHeight = dstHeight;
         }
+    }
+
+    public void setScreencastMouseEventListener(ScreencastMouseEventListener screencastMouseEventListener) {
+        mListener = screencastMouseEventListener;
+    }
+
+    private static final int ACTION_DOWN = 0;
+    private static final int ACTION_MOVE = 2;
+    private static final int ACTION_UP = 1;
+
+    private long mDownTime;
+
+    private MouseMotionListener mMouseMotionListener = new MouseMotionListener() {
+        long mLastMouseMoveTracked = -1;
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (mListener != null) {
+                long now = System.currentTimeMillis();
+                // HACK ALERT: Since mouseDragged is too often for companion service to detect correct motion gesture,
+                // we should drop some events in the specific interval after we send the event
+                if (now < mLastMouseMoveTracked + 50) {
+                    return;
+                }
+                mListener.onMouseEvent(ACTION_MOVE, e.getX(), e.getY(), mDownTime);
+                mLastMouseMoveTracked = now;
+            }
+        }
+    };
+
+    private MouseListener mMouseListener = new MouseListener() {
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (mListener != null) {
+                mListener.onMouseEvent(ACTION_UP, e.getX(), e.getY(), mDownTime);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            mDownTime = System.currentTimeMillis();
+            if (mListener != null) {
+                mListener.onMouseEvent(ACTION_DOWN, e.getX(), e.getY(), mDownTime);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+    };
+
+    public interface ScreencastMouseEventListener {
+        public void onMouseEvent(int action, int x, int y, long downTime);
     }
 }

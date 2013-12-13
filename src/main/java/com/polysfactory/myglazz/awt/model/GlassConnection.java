@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.bluetooth.BluetoothStateException;
 import javax.bluetooth.DeviceClass;
@@ -42,6 +44,7 @@ public class GlassConnection {
     private List<GlassConnectionListener> mListeners = new ArrayList<GlassConnection.GlassConnectionListener>();
     private GlassReaderThread mGlassReaderThread;
     private final Client mClient;
+    private final ExecutorService mWriteThread = Executors.newSingleThreadExecutor();
 
     public GlassConnection() {
         LocalDevice localDevice;
@@ -191,7 +194,7 @@ public class GlassConnection {
         @Override
         public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
             mConnectionURL = null;
-            if (servRecord == null && servRecord.length <= 0) {
+            if (servRecord == null || servRecord.length <= 0) {
                 System.err.println("invalid service discovered");
                 return;
             }
@@ -247,14 +250,25 @@ public class GlassConnection {
     }
 
     public void write(Envelope envelope) {
-        try {
-            if (MyGlazz.DEBUG) {
-                System.out.println("write:" + envelope);
+        synchronized (mOutStream) {
+            try {
+                if (MyGlazz.DEBUG) {
+                    System.out.println("write:" + envelope);
+                }
+                GlassProtocol.writeMessage(envelope, mOutStream);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            GlassProtocol.writeMessage(envelope, mOutStream);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    public void writeAsync(final Envelope envelope) {
+        mWriteThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                write(envelope);
+            }
+        });
     }
 
     public interface GlassConnectionListener {
@@ -278,7 +292,9 @@ public class GlassConnection {
                     try {
                         Envelope envelope = (Envelope) GlassProtocol.readMessage(new Envelope(), mInStream);
                         if (MyGlazz.DEBUG) {
-                            System.out.println("read:" + envelope);
+                            if (envelope.screenshot == null) {
+                                System.out.println("read:" + envelope);
+                            }
                         }
                         if (envelope != null) {
                             synchronized (mListeners) {
