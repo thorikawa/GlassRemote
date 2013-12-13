@@ -22,7 +22,6 @@ The purpose of My Glazz project is re-inventing My Glass app running on PC. My G
 
 * Make sure bluetooth is on.
 * Make sure your "real" My Glass app is not connected to Google Glass.
-* Pair your glass in advance.
 * Download jar file and just double click it.
 
 ## Release Notes
