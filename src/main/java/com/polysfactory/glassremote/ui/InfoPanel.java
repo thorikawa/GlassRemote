@@ -1,8 +1,8 @@
 package com.polysfactory.glassremote.ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -14,14 +14,18 @@ public class InfoPanel extends JPanel {
     private JTextArea textArea;
 
     public InfoPanel() {
-        setBackground(Color.BLACK);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setLayout(null);
+        GroupLayout layout = new GroupLayout(this);
+        layout.setAutoCreateContainerGaps(true);
+        layout.setAutoCreateGaps(true);
+        setLayout(layout);
 
         textArea = new JTextArea();
         textArea.setBounds(5, 5, 630, 30);
         textArea.setEditable(false);
-        add(textArea);
+
+        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(textArea));
+        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(textArea));
     }
 
     public void setText(String text) {

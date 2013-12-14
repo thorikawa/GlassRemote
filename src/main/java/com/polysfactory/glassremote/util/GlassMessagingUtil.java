@@ -66,19 +66,48 @@ public class GlassMessagingUtil {
         return envelope;
     }
 
-    public static final List<Envelope> getSwipeDownEvents() {
+    private static final int SWIPE_STEP_COUNT = 2;
+    private static final long SWIPE_DURATION = 700;
+    private static final long SWIPE_STEP_DURATION = (long) ((float) SWIPE_DURATION / (float) SWIPE_STEP_COUNT);
+
+    public static final List<Envelope> getSwipeEvents(float startX, float startY, float endX, float endY) {
         List<Envelope> res = new ArrayList<Envelope>();
-        float x = 50.0F;
-        long downTime = System.currentTimeMillis();
-        MotionEvent downEvent = convertMouseEvent2MotionEvent(ACTION_DOWN, x, 10.0F, downTime);
+        float x = startX;
+        float y = startY;
+        float stepX = (endX - startX) / (float) SWIPE_STEP_COUNT;
+        float stepY = (endY - startY) / (float) SWIPE_STEP_COUNT;
+
+        long downTime = System.currentTimeMillis() - SWIPE_DURATION;
+        long eventTime = downTime;
+        MotionEvent downEvent = convertMouseEvent2MotionEvent(ACTION_DOWN, x, y, downTime);
         res.add(newMotionEventEnvelope(downEvent));
-        for (float y = 15.0F; y < 90.0F; y += 8.0F) {
+        for (int i = 0; i < SWIPE_STEP_COUNT - 1; i++) {
+            x += stepX;
+            y += stepY;
+            eventTime += SWIPE_STEP_DURATION;
             MotionEvent moveEvent = convertMouseEvent2MotionEvent(ACTION_MOVE, x, y, downTime);
+            moveEvent.eventTime = eventTime;
             res.add(newMotionEventEnvelope(moveEvent));
         }
-        MotionEvent upEvent = convertMouseEvent2MotionEvent(ACTION_UP, x, 90.0F, downTime);
+        x += stepX;
+        y += stepY;
+        eventTime += SWIPE_STEP_DURATION;
+        MotionEvent upEvent = convertMouseEvent2MotionEvent(ACTION_UP, x, y, downTime);
+        upEvent.eventTime = eventTime;
         res.add(newMotionEventEnvelope(upEvent));
         return res;
+    }
+
+    public static final List<Envelope> getSwipeDownEvents() {
+        return getSwipeEvents(33.3F, 0.001F, 33.3F, 99.999F);
+    }
+
+    public static final List<Envelope> getSwipeLeftEvents() {
+        return getSwipeEvents(0.001F, 50.0F, 99.999F, 50.0F);
+    }
+
+    public static final List<Envelope> getSwipeRightEvents() {
+        return getSwipeEvents(99.999F, 50.0F, 0.001F, 50.0F);
     }
 
     public static Envelope createTimelineMessage(String text) {

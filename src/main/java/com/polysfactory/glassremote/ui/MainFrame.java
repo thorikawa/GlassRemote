@@ -16,7 +16,6 @@
  */
 package com.polysfactory.glassremote.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -35,10 +34,12 @@ import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
@@ -195,21 +196,28 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
 
     private void initializePanel() {
 
+        JPanel panel = new JPanel();
+        GroupLayout layout = new GroupLayout(panel);
+        panel.setLayout(layout);
+
         mInfoPanel = new InfoPanel();
-        add(mInfoPanel, BorderLayout.NORTH);
 
         mScreencastPanel = new ScreencastPanel();
         mScreencastPanel.setZoom(mZoom);
         mScreencastPanel.setScreencastMouseEventListener(this);
-        add(mScreencastPanel, BorderLayout.CENTER);
 
         mControlPanel = new ControlPanel(mGlassConnection);
-        add(mControlPanel, BorderLayout.SOUTH);
+
+        layout.setHorizontalGroup(layout.createParallelGroup().addComponent(mInfoPanel).addComponent(mScreencastPanel)
+                .addComponent(mControlPanel));
+        layout.setVerticalGroup(layout.createSequentialGroup().addComponent(mInfoPanel).addComponent(mScreencastPanel)
+                .addComponent(mControlPanel));
+
+        add(panel);
     }
 
     private void initializeMenu() {
         mPopupMenu = new JPopupMenu();
-
         initializeSelectDeviceMenu();
         mPopupMenu.addSeparator();
         initializeZoomMenu();
@@ -335,10 +343,10 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
         if (envelope.glassInfoResponseG2C != null) {
             GlassInfoResponse response = envelope.glassInfoResponseG2C;
             String info = "";
-            info += "device name:" + response.deviceName;
-            info += ", battery:" + response.batteryLevel + "%\n";
-            info += "storage:" + response.externalStorageAvailableBytes + "/" + response.externalStorageTotalBytes
-                    + "bytes available";
+            info += "Device name: " + response.deviceName;
+            info += "  Battery: " + response.batteryLevel + "%\n";
+            info += "Storage: " + response.externalStorageAvailableBytes + "/" + response.externalStorageTotalBytes
+                    + " bytes available";
             mInfoPanel.setText(info);
         }
         if (envelope.companionInfo != null) {
