@@ -26,7 +26,7 @@ GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bl
 
 ## Release Notes
 
-#### Dec 13, 2013
+#### Dec 13, 2013 
 #### v0.4.0 is out!
 
 See [Release page](https://github.com/thorikawa/GlassRemote/releases) for more detail.
