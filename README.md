@@ -1,9 +1,9 @@
-MyGlazz
+Glass Remote
 =======
 
-The purpose of My Glazz project is re-inventing My Glass app running on PC. My Glazz uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass. So you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
+Glass Remote is remote controller app for PC. Glass Remote uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass, so you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
 
-<img src="http://thorikawa.github.io/MyGlazz/img/screenshot1.png" width="300" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://thorikawa.github.io/MyGlazz/img/screenshot2.png" width="300" />
+<img src="http://thorikawa.github.io/GlassRemote/img/screenshot1.png" width="300" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://thorikawa.github.io/GlassRemote/img/screenshot2.png" width="300" />
 
 ## Features
 * Screencast
