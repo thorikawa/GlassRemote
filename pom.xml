@@ -23,14 +23,14 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/thorikawa/MyGlazz</url>
-		<connection>scm:git:git://github.com/thorikawa/MyGlazz.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/thorikawa/MyGlazz.git</developerConnection>
+		<url>https://github.com/thorikawa/GlassRemote</url>
+		<connection>scm:git:git://github.com/thorikawa/GlassRemote.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/thorikawa/GlassRemote.git</developerConnection>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>http://github.com/thorikawa/MyGlazz/issues</url>
+		<url>http://github.com/thorikawa/GlassRemote/issues</url>
 	</issueManagement>
 
 	<licenses>
