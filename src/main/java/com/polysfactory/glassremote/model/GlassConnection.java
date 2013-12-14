@@ -25,7 +25,7 @@ import com.google.glass.companion.CompanionMessagingUtil;
 import com.google.glass.companion.GlassProtocol;
 import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.GlassInfoRequest;
-import com.polysfactory.glassremote.MyGlazz;
+import com.polysfactory.glassremote.App;
 
 /**
  * Handling connection with Google Glass companion service
@@ -147,7 +147,7 @@ public class GlassConnection {
             // TODO Auto-generated method stub
 
             // TODO filter glass?
-            if (MyGlazz.DEBUG) {
+            if (App.DEBUG) {
                 System.out.println("deviceDiscovered");
             }
             synchronized (mListeners) {
@@ -160,7 +160,7 @@ public class GlassConnection {
         @Override
         public void inquiryCompleted(int discType) {
             // TODO Auto-generated method stub
-            if (MyGlazz.DEBUG) {
+            if (App.DEBUG) {
                 System.out.println("inquiryCompleted");
             }
             synchronized (mListeners) {
@@ -173,7 +173,7 @@ public class GlassConnection {
         @Override
         public void serviceSearchCompleted(int transID, int respCode) {
             // TODO Auto-generated method stub
-            if (MyGlazz.DEBUG) {
+            if (App.DEBUG) {
                 System.out.println("serviceSearchCompleted:" + respCode);
             }
             if (respCode == DiscoveryListener.SERVICE_SEARCH_NO_RECORDS) {
@@ -201,7 +201,7 @@ public class GlassConnection {
 
             ServiceRecord service = servRecord[0];
             mConnectionURL = service.getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
-            if (MyGlazz.DEBUG) {
+            if (App.DEBUG) {
                 System.out.println(mConnectionURL);
             }
 
@@ -252,7 +252,7 @@ public class GlassConnection {
     public void write(Envelope envelope) {
         synchronized (mOutStream) {
             try {
-                if (MyGlazz.DEBUG) {
+                if (App.DEBUG) {
                     System.out.println("write:" + envelope);
                 }
                 GlassProtocol.writeMessage(envelope, mOutStream);
@@ -291,7 +291,7 @@ public class GlassConnection {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
                         Envelope envelope = (Envelope) GlassProtocol.readMessage(new Envelope(), mInStream);
-                        if (MyGlazz.DEBUG) {
+                        if (App.DEBUG) {
                             if (envelope.screenshot == null) {
                                 System.out.println("read:" + envelope);
                             }
@@ -307,7 +307,7 @@ public class GlassConnection {
                         Thread.currentThread().interrupt();
                     }
                 }
-                if (MyGlazz.DEBUG) {
+                if (App.DEBUG) {
                     System.out.println("Reader thread finished.");
                 }
             } catch (IOException e) {

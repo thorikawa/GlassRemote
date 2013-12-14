@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 
 import com.polysfactory.glassremote.ui.MainFrame;
 
-public class MyGlazz {
+public class App {
     public static boolean DEBUG = false;
 
     public static void main(String[] args) {

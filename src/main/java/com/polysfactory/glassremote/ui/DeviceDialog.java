@@ -39,7 +39,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import com.google.glass.companion.Proto.Envelope;
-import com.polysfactory.glassremote.MyGlazz;
+import com.polysfactory.glassremote.App;
 import com.polysfactory.glassremote.model.Device;
 import com.polysfactory.glassremote.model.GlassConnection;
 import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
@@ -175,14 +175,14 @@ public class DeviceDialog extends JDialog implements ListDataListener, GlassConn
 
     @Override
     public void contentsChanged(ListDataEvent arg0) {
-        if (MyGlazz.DEBUG) {
+        if (App.DEBUG) {
             System.out.println("contentsChanged");
         }
     }
 
     @Override
     public void intervalAdded(ListDataEvent arg0) {
-        if (MyGlazz.DEBUG) {
+        if (App.DEBUG) {
             System.out.println("intervalAdded");
         }
         mOK.setEnabled(mModel.getSize() > 0);
@@ -190,7 +190,7 @@ public class DeviceDialog extends JDialog implements ListDataListener, GlassConn
 
     @Override
     public void intervalRemoved(ListDataEvent arg0) {
-        if (MyGlazz.DEBUG) {
+        if (App.DEBUG) {
             System.out.println("intervalRemoved");
         }
     }
@@ -202,7 +202,7 @@ public class DeviceDialog extends JDialog implements ListDataListener, GlassConn
                 if (!mModel.contains(device)) {
                     mModel.addElement(device);
                 } else {
-                    if (MyGlazz.DEBUG) {
+                    if (App.DEBUG) {
                         System.out.println("This device is already in the list");
                     }
                 }
