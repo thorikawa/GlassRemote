@@ -102,6 +102,9 @@ public class GlassConnection {
         if (mStreamConnection != null) {
             try {
                 mStreamConnection.close();
+                mStreamConnection = null;
+                mOutStream = null;
+                mInStream = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -159,7 +162,6 @@ public class GlassConnection {
 
         @Override
         public void inquiryCompleted(int discType) {
-            // TODO Auto-generated method stub
             if (App.DEBUG) {
                 System.out.println("inquiryCompleted");
             }
@@ -172,7 +174,6 @@ public class GlassConnection {
 
         @Override
         public void serviceSearchCompleted(int transID, int respCode) {
-            // TODO Auto-generated method stub
             if (App.DEBUG) {
                 System.out.println("serviceSearchCompleted:" + respCode);
             }
@@ -255,7 +256,9 @@ public class GlassConnection {
                 if (App.DEBUG) {
                     System.out.println("write:" + envelope);
                 }
-                GlassProtocol.writeMessage(envelope, mOutStream);
+                if (mOutStream != null) {
+                    GlassProtocol.writeMessage(envelope, mOutStream);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -267,6 +270,17 @@ public class GlassConnection {
             @Override
             public void run() {
                 write(envelope);
+            }
+        });
+    }
+
+    public void writeAsync(final List<Envelope> envelopes) {
+        mWriteThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                for (Envelope envelope : envelopes) {
+                    write(envelope);
+                }
             }
         });
     }

@@ -49,20 +49,16 @@ import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.GlassInfoResponse;
 import com.google.glass.companion.Proto.MotionEvent;
 import com.google.glass.companion.Proto.ScreenShot;
-import com.google.googlex.glass.common.proto.TimelineNano;
-import com.google.googlex.glass.common.proto.TimelineNano.SourceType;
-import com.google.googlex.glass.common.proto.TimelineNano.TimelineItem;
 import com.polysfactory.glassremote.model.Device;
 import com.polysfactory.glassremote.model.GlassConnection;
 import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
-import com.polysfactory.glassremote.ui.ControlPanel.ControlPanelListener;
 import com.polysfactory.glassremote.ui.ScreencastPanel.ScreencastMouseEventListener;
+import com.polysfactory.glassremote.util.GlassMessagingUtil;
 import com.polysfactory.glassremote.util.ImageUtil;
 import com.polysfactory.glassremote.util.SwingUtil;
 
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame implements GlassConnectionListener, ControlPanelListener,
-        ScreencastMouseEventListener {
+public class MainFrame extends JFrame implements GlassConnectionListener, ScreencastMouseEventListener {
 
     private static final String TITLE = "MyGlazz";
 
@@ -214,8 +210,7 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
         mScreencastPanel.setScreencastMouseEventListener(this);
         add(mScreencastPanel, BorderLayout.CENTER);
 
-        mControlPanel = new ControlPanel();
-        mControlPanel.setControlPanelListener(this);
+        mControlPanel = new ControlPanel(mGlassConnection);
         add(mControlPanel, BorderLayout.SOUTH);
     }
 
@@ -391,22 +386,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
     }
 
     @Override
-    public void onSendTimeline(String text) {
-        Envelope envelope = CompanionMessagingUtil.newEnvelope();
-        TimelineItem timelineItem = new TimelineNano.TimelineItem();
-        timelineItem.id = "com.polysfactory.myglazz.awt.timeline.sample";
-        timelineItem.title = "From MyGlazz";
-        timelineItem.text = text;
-        timelineItem.creationTime = System.currentTimeMillis();
-        timelineItem.modifiedTime = System.currentTimeMillis();
-        timelineItem.sourceType = SourceType.COMPANIONWARE;
-        timelineItem.source = "MyGlazz";
-        timelineItem.isDeleted = false;
-        envelope.timelineItem = new TimelineItem[] { timelineItem };
-        mGlassConnection.write(envelope);
-    }
-
-    @Override
     public void onConnectionOpened() {
         Envelope envelope = CompanionMessagingUtil.newEnvelope();
         ScreenShot screenShot = new ScreenShot();
@@ -422,7 +401,7 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Contro
 
     @Override
     public void onMouseEvent(int action, int x, int y, long downTime) {
-        MotionEvent glassMotionEvent = SwingUtil.MouseEvent2MotionEvent(action, 100.0f * (float) x
+        MotionEvent glassMotionEvent = GlassMessagingUtil.convertMouseEvent2MotionEvent(action, 100.0f * (float) x
                 / (float) mScreencastPanel.getWidth(), 100.0f * (float) y / (float) mScreencastPanel.getHeight(),
                 downTime);
         Envelope envelope = CompanionMessagingUtil.newEnvelope();

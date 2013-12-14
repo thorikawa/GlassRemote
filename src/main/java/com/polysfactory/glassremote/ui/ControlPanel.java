@@ -11,17 +11,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import com.google.glass.companion.Proto.Envelope;
+import com.polysfactory.glassremote.model.GlassConnection;
+import com.polysfactory.glassremote.util.GlassMessagingUtil;
+
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel {
 
     private static final int WIDTH = 640;
     private static final int HEIGHT = 180;
-    private ControlPanelListener mListener;
+    private GlassConnection mGlassConnection;
 
-    public ControlPanel() {
+    public ControlPanel(GlassConnection glassConnection) {
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(null);
+
+        mGlassConnection = glassConnection;
 
         final JTextArea textArea = new JTextArea(100, 20);
         textArea.setBounds(5, 5, 630, 110);
@@ -34,20 +40,11 @@ public class ControlPanel extends JPanel {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (mListener != null) {
-                    String text = textArea.getText();
-                    mListener.onSendTimeline(text);
-                }
+                String text = textArea.getText();
+                Envelope envelope = GlassMessagingUtil.createTimelineMessage(text);
+                mGlassConnection.write(envelope);
             }
         });
         add(sendButton);
-    }
-
-    public void setControlPanelListener(ControlPanelListener listener) {
-        mListener = listener;
-    }
-
-    public static interface ControlPanelListener {
-        public abstract void onSendTimeline(String text);
     }
 }

@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import com.polysfactory.glassremote.util.GlassMessagingUtil;
+
 @SuppressWarnings("serial")
 public class ScreencastPanel extends JPanel {
 
@@ -85,10 +87,6 @@ public class ScreencastPanel extends JPanel {
         mListener = screencastMouseEventListener;
     }
 
-    private static final int ACTION_DOWN = 0;
-    private static final int ACTION_MOVE = 2;
-    private static final int ACTION_UP = 1;
-
     private long mDownTime;
 
     private MouseMotionListener mMouseMotionListener = new MouseMotionListener() {
@@ -107,7 +105,7 @@ public class ScreencastPanel extends JPanel {
                 if (now < mLastMouseMoveTracked + 50) {
                     return;
                 }
-                mListener.onMouseEvent(ACTION_MOVE, e.getX(), e.getY(), mDownTime);
+                mListener.onMouseEvent(GlassMessagingUtil.ACTION_MOVE, e.getX(), e.getY(), mDownTime);
                 mLastMouseMoveTracked = now;
             }
         }
@@ -117,7 +115,7 @@ public class ScreencastPanel extends JPanel {
         @Override
         public void mouseReleased(MouseEvent e) {
             if (mListener != null) {
-                mListener.onMouseEvent(ACTION_UP, e.getX(), e.getY(), mDownTime);
+                mListener.onMouseEvent(GlassMessagingUtil.ACTION_UP, e.getX(), e.getY(), mDownTime);
             }
         }
 
@@ -125,7 +123,7 @@ public class ScreencastPanel extends JPanel {
         public void mousePressed(MouseEvent e) {
             mDownTime = System.currentTimeMillis();
             if (mListener != null) {
-                mListener.onMouseEvent(ACTION_DOWN, e.getX(), e.getY(), mDownTime);
+                mListener.onMouseEvent(GlassMessagingUtil.ACTION_DOWN, e.getX(), e.getY(), mDownTime);
             }
         }
 
