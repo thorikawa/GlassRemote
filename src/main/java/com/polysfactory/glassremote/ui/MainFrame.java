@@ -55,7 +55,6 @@ import com.polysfactory.glassremote.model.GlassConnection;
 import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
 import com.polysfactory.glassremote.ui.ScreencastPanel.ScreencastMouseEventListener;
 import com.polysfactory.glassremote.util.GlassMessagingUtil;
-import com.polysfactory.glassremote.util.ImageUtil;
 import com.polysfactory.glassremote.util.SwingUtil;
 
 @SuppressWarnings("serial")
@@ -127,13 +126,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
             mScreencastPanel.setZoom(mZoom);
             savePrefs();
             updateSize();
-        }
-    }
-
-    private void saveImage() {
-        BufferedImage inImage = mScreencastPanel.getImage();
-        if (inImage != null) {
-            ImageUtil.saveImage(this, inImage, mZoom);
         }
     }
 
@@ -222,8 +214,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
         mPopupMenu.addSeparator();
         initializeZoomMenu();
         mPopupMenu.addSeparator();
-        initializeSaveImageMenu();
-        mPopupMenu.addSeparator();
         initializeAbout();
     }
 
@@ -245,8 +235,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
 
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        addRadioButtonMenuItemZoom(menuZoom, buttonGroup, 0.1, "10%", -1, mZoom);
-        addRadioButtonMenuItemZoom(menuZoom, buttonGroup, 0.25, "25%", -1, mZoom);
         addRadioButtonMenuItemZoom(menuZoom, buttonGroup, 0.5, "50%", KeyEvent.VK_5, mZoom);
         addRadioButtonMenuItemZoom(menuZoom, buttonGroup, 0.75, "75%", KeyEvent.VK_7, mZoom);
         addRadioButtonMenuItemZoom(menuZoom, buttonGroup, 1.0, "100%", KeyEvent.VK_1, mZoom);
@@ -270,17 +258,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
         }
         buttonGroup.add(radioButtonMenuItemZoom);
         menuZoom.add(radioButtonMenuItemZoom);
-    }
-
-    private void initializeSaveImageMenu() {
-        JMenuItem menuItemSaveImage = new JMenuItem("Save Image...");
-        menuItemSaveImage.setMnemonic(KeyEvent.VK_S);
-        menuItemSaveImage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                saveImage();
-            }
-        });
-        mPopupMenu.add(menuItemSaveImage);
     }
 
     private void initializeAbout() {
