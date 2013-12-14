@@ -45,6 +45,7 @@ public class GlassConnection {
     private GlassReaderThread mGlassReaderThread;
     private final Client mClient;
     private final ExecutorService mWriteThread = Executors.newSingleThreadExecutor();
+    private final Object STREAM_WRITE_LOCK = new Object();
 
     public GlassConnection() {
         LocalDevice localDevice;
@@ -251,7 +252,7 @@ public class GlassConnection {
     }
 
     public void write(Envelope envelope) {
-        synchronized (mOutStream) {
+        synchronized (STREAM_WRITE_LOCK) {
             try {
                 if (App.DEBUG) {
                     System.out.println("write:" + envelope);

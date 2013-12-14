@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import com.polysfactory.glassremote.App;
+
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 
@@ -43,12 +45,12 @@ public class AboutDialog extends JDialog {
         super(owner, modal);
 
         // Frame
-        setTitle("About MyGlazz");
+        setTitle("About " + App.NAME);
         setBounds(0, 0, 320, 140);
         setResizable(false);
 
         // Label
-        JLabel labelApp = new JLabel("MyGlazz Version 1.0.0");
+        JLabel labelApp = new JLabel(App.NAME + " Version 1.0.0");
         JLabel labelCopyright = new JLabel("Copyright (C) 2013 Poly's Factory All rights reserved.");
         JTextField labelUrl = new JTextField("http://polysfactory.com/");
         labelUrl.setEditable(false);

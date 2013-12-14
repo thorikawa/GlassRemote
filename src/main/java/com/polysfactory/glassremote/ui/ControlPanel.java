@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -30,7 +31,7 @@ public class ControlPanel extends JPanel {
         mGlassConnection = glassConnection;
 
         final JTextArea textArea = new JTextArea(100, 20);
-        textArea.setBounds(5, 5, 630, 110);
+        textArea.setBounds(5, 5, 395, 110);
         Border border = BorderFactory.createLineBorder(Color.black);
         textArea.setBorder(border);
         add(textArea);
@@ -46,5 +47,17 @@ public class ControlPanel extends JPanel {
             }
         });
         add(sendButton);
+
+        final JButton swipeDownButton = new JButton("SWIPE_DOWN");
+        swipeDownButton.setBounds(400, 5, 150, 40);
+        swipeDownButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Envelope> envelopes = GlassMessagingUtil.getSwipeDownEvents();
+                mGlassConnection.writeAsync(envelopes);
+            }
+        });
+        add(swipeDownButton);
+
     }
 }

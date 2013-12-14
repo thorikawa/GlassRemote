@@ -1,5 +1,8 @@
 package com.polysfactory.glassremote.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.glass.companion.CompanionMessagingUtil;
 import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.MotionEvent;
@@ -8,6 +11,7 @@ import com.google.glass.companion.Proto.MotionEvent.PointerProperties;
 import com.google.googlex.glass.common.proto.TimelineNano;
 import com.google.googlex.glass.common.proto.TimelineNano.SourceType;
 import com.google.googlex.glass.common.proto.TimelineNano.TimelineItem;
+import com.polysfactory.glassremote.App;
 
 public class GlassMessagingUtil {
 
@@ -56,17 +60,38 @@ public class GlassMessagingUtil {
         }
     }
 
+    public static final Envelope newMotionEventEnvelope(MotionEvent e) {
+        Envelope envelope = CompanionMessagingUtil.newEnvelope();
+        envelope.motionC2G = e;
+        return envelope;
+    }
+
+    public static final List<Envelope> getSwipeDownEvents() {
+        List<Envelope> res = new ArrayList<Envelope>();
+        float x = 50.0F;
+        long downTime = System.currentTimeMillis();
+        MotionEvent downEvent = convertMouseEvent2MotionEvent(ACTION_DOWN, x, 10.0F, downTime);
+        res.add(newMotionEventEnvelope(downEvent));
+        for (float y = 15.0F; y < 90.0F; y += 8.0F) {
+            MotionEvent moveEvent = convertMouseEvent2MotionEvent(ACTION_MOVE, x, y, downTime);
+            res.add(newMotionEventEnvelope(moveEvent));
+        }
+        MotionEvent upEvent = convertMouseEvent2MotionEvent(ACTION_UP, x, 90.0F, downTime);
+        res.add(newMotionEventEnvelope(upEvent));
+        return res;
+    }
+
     public static Envelope createTimelineMessage(String text) {
         long now = System.currentTimeMillis();
         Envelope envelope = CompanionMessagingUtil.newEnvelope();
         TimelineItem timelineItem = new TimelineNano.TimelineItem();
         timelineItem.id = "com.polysfactory.glassremote.timeline.sample";
-        timelineItem.title = "From GlassRemote";
+        timelineItem.title = "From " + App.NAME;
         timelineItem.text = text;
         timelineItem.creationTime = now;
         timelineItem.modifiedTime = now;
         timelineItem.sourceType = SourceType.COMPANIONWARE;
-        timelineItem.source = "GlassRemote";
+        timelineItem.source = App.NAME;
         timelineItem.isDeleted = false;
         envelope.timelineItem = new TimelineItem[] { timelineItem };
         return envelope;

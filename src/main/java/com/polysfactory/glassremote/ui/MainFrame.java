@@ -49,6 +49,7 @@ import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.GlassInfoResponse;
 import com.google.glass.companion.Proto.MotionEvent;
 import com.google.glass.companion.Proto.ScreenShot;
+import com.polysfactory.glassremote.App;
 import com.polysfactory.glassremote.model.Device;
 import com.polysfactory.glassremote.model.GlassConnection;
 import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
@@ -60,7 +61,7 @@ import com.polysfactory.glassremote.util.SwingUtil;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements GlassConnectionListener, ScreencastMouseEventListener {
 
-    private static final String TITLE = "MyGlazz";
+    private static final String TITLE = App.NAME;
 
     private ScreencastPanel mScreencastPanel;
     private JPopupMenu mPopupMenu;
@@ -79,6 +80,9 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
     private InfoPanel mInfoPanel;
 
     public MainFrame() {
+        mGlassConnection = new GlassConnection();
+        mGlassConnection.registerListener(this);
+
         initializePrefs();
         initializeFrame();
         initializePanel();
@@ -86,9 +90,6 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
 
         addMouseListener(mMouseListener);
         addWindowListener(mWindowListener);
-
-        mGlassConnection = new GlassConnection();
-        mGlassConnection.registerListener(this);
 
         pack();
         setImage(null);
@@ -283,7 +284,7 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
     }
 
     private void initializeAbout() {
-        JMenuItem menuItemAbout = new JMenuItem("About MyGlazz");
+        JMenuItem menuItemAbout = new JMenuItem("About " + App.NAME);
         menuItemAbout.setMnemonic(KeyEvent.VK_A);
         menuItemAbout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -376,12 +377,12 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
 
     @Override
     public void onServiceNotFound() {
-        JOptionPane.showMessageDialog(this, "Companion service not found.", "MyGlazz", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Companion service not found.", App.NAME, JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void onServiceSearchError() {
-        JOptionPane.showMessageDialog(this, "Error happend while searching companion service.", "MyGlazz",
+        JOptionPane.showMessageDialog(this, "Error happend while searching companion service.", App.NAME,
                 JOptionPane.ERROR_MESSAGE);
     }
 
