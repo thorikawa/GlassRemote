@@ -1,7 +1,7 @@
 Glass Remote
 =======
 
-Glass Remote is remote controller app for PC. Glass Remote uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass, so you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
+Glass Remote is Google Glass remote controller app running on PC. Glass Remote uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass, so you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
 
 <img src="http://thorikawa.github.io/GlassRemote/img/screenshot1.png" width="300" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://thorikawa.github.io/GlassRemote/img/screenshot2.png" width="300" />
 
