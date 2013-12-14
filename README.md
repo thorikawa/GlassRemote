@@ -1,7 +1,7 @@
-Glass Remote
+GlassRemote
 =======
 
-Glass Remote is Google Glass remote controller running on PC. Glass Remote uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass, so you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
+GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bluetooth connection and built-in bluetooth protocol to communicate with Google Glass, so you no longer need ADB, Android SDK, root permission or even USB cable to control your glass!
 
 <img src="http://thorikawa.github.io/GlassRemote/img/screenshot1.png" width="300" />&nbsp;&nbsp;&nbsp;&nbsp;<img src="http://thorikawa.github.io/GlassRemote/img/screenshot2.png" width="300" />
 
@@ -16,7 +16,7 @@ Glass Remote is Google Glass remote controller running on PC. Glass Remote uses 
 * Bluetooth connection
 
 ## Download
-[v0.3.0 Executable Jar File](https://github.com/thorikawa/GlassRemote/releases/download/v0.3.0/myglazz-awt-0.3.0.jar)
+[v0.4.0 Executable Jar File](https://github.com/thorikawa/GlassRemote/releases/download/v0.4.0/glass-remote-0.4.0.jar)
 
 ## Usage
 
@@ -26,8 +26,8 @@ Glass Remote is Google Glass remote controller running on PC. Glass Remote uses 
 
 ## Release Notes
 
-#### Dec 12, 2013
-#### v0.3.0 is out!
+#### Dec 13, 2013
+#### v0.4.0 is out!
 
 See [Release page](https://github.com/thorikawa/GlassRemote/releases) for more detail.
 
