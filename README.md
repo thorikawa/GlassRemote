@@ -29,7 +29,7 @@ Glass Remote is Google Glass remote controller running on PC. Glass Remote uses 
 #### Dec 12, 2013
 #### v0.3.0 is out!
 
-See [Release page](https://github.com/thorikawa/MyGlazz/releases) for more detail.
+See [Release page](https://github.com/thorikawa/GlassRemote/releases) for more detail.
 
 ## Future Plan
 * Full screen support
