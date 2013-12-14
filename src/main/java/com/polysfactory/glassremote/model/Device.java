@@ -1,4 +1,4 @@
-package com.polysfactory.myglazz.awt.model;
+package com.polysfactory.glassremote.model;
 
 import java.io.IOException;
 

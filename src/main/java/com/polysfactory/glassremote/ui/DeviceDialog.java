@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.polysfactory.myglazz.awt.ui;
+package com.polysfactory.glassremote.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -39,10 +39,10 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import com.google.glass.companion.Proto.Envelope;
-import com.polysfactory.myglazz.awt.MyGlazz;
-import com.polysfactory.myglazz.awt.model.Device;
-import com.polysfactory.myglazz.awt.model.GlassConnection;
-import com.polysfactory.myglazz.awt.model.GlassConnection.GlassConnectionListener;
+import com.polysfactory.glassremote.MyGlazz;
+import com.polysfactory.glassremote.model.Device;
+import com.polysfactory.glassremote.model.GlassConnection;
+import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
 
 @SuppressWarnings("serial")
 public class DeviceDialog extends JDialog implements ListDataListener, GlassConnectionListener {

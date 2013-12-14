@@ -1,8 +1,8 @@
-package com.polysfactory.myglazz.awt;
+package com.polysfactory.glassremote;
 
 import javax.swing.SwingUtilities;
 
-import com.polysfactory.myglazz.awt.ui.MainFrame;
+import com.polysfactory.glassremote.ui.MainFrame;
 
 public class MyGlazz {
     public static boolean DEBUG = false;

@@ -1,4 +1,4 @@
-package com.polysfactory.myglazz.awt.ui;
+package com.polysfactory.glassremote.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package com.polysfactory.myglazz.awt.model;
+package com.polysfactory.glassremote.model;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ import com.google.glass.companion.CompanionMessagingUtil;
 import com.google.glass.companion.GlassProtocol;
 import com.google.glass.companion.Proto.Envelope;
 import com.google.glass.companion.Proto.GlassInfoRequest;
-import com.polysfactory.myglazz.awt.MyGlazz;
+import com.polysfactory.glassremote.MyGlazz;
 
 /**
  * Handling connection with Google Glass companion service

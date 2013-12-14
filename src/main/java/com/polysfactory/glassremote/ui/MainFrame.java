@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.polysfactory.myglazz.awt.ui;
+package com.polysfactory.glassremote.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -52,13 +52,13 @@ import com.google.glass.companion.Proto.ScreenShot;
 import com.google.googlex.glass.common.proto.TimelineNano;
 import com.google.googlex.glass.common.proto.TimelineNano.SourceType;
 import com.google.googlex.glass.common.proto.TimelineNano.TimelineItem;
-import com.polysfactory.myglazz.awt.model.Device;
-import com.polysfactory.myglazz.awt.model.GlassConnection;
-import com.polysfactory.myglazz.awt.model.GlassConnection.GlassConnectionListener;
-import com.polysfactory.myglazz.awt.ui.ControlPanel.ControlPanelListener;
-import com.polysfactory.myglazz.awt.ui.ScreencastPanel.ScreencastMouseEventListener;
-import com.polysfactory.myglazz.awt.util.ImageUtil;
-import com.polysfactory.myglazz.awt.util.SwingUtil;
+import com.polysfactory.glassremote.model.Device;
+import com.polysfactory.glassremote.model.GlassConnection;
+import com.polysfactory.glassremote.model.GlassConnection.GlassConnectionListener;
+import com.polysfactory.glassremote.ui.ControlPanel.ControlPanelListener;
+import com.polysfactory.glassremote.ui.ScreencastPanel.ScreencastMouseEventListener;
+import com.polysfactory.glassremote.util.ImageUtil;
+import com.polysfactory.glassremote.util.SwingUtil;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements GlassConnectionListener, ControlPanelListener,

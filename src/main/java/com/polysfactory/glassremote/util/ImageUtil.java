@@ -1,4 +1,4 @@
-package com.polysfactory.myglazz.awt.util;
+package com.polysfactory.glassremote.util;
 
 import java.awt.Component;
 import java.awt.geom.AffineTransform;

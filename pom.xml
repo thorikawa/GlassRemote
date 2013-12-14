@@ -10,12 +10,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.polysfactory.myglazz</groupId>
-	<artifactId>myglazz-awt</artifactId>
+	<groupId>com.polysfactory.glassremote</groupId>
+	<artifactId>glass-remote</artifactId>
 	<version>0.3.0</version>
 
-	<name>MyGlazz</name>
-	<url>https://github.com/thorikawa/MyGlazz</url>
+	<name>GlassRemote</name>
+	<url>https://github.com/thorikawa/GlassRemote</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -109,7 +109,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.polysfactory.myglazz.awt.MyGlazz</mainClass>
+							<mainClass>com.polysfactory.glassremote.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
