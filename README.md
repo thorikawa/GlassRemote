@@ -7,7 +7,7 @@ GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bl
 
 ## Features
 * Screencast
-* Mouse control
+* Mouse control + keyboard shortcut control
 * Timeline posting (text support only)
 * Display device info
 
@@ -15,21 +15,17 @@ GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bl
 * JRE 1.6 or later.
 * Bluetooth connection
 
-## Download
-[v0.4.0 Executable Jar File](https://github.com/thorikawa/GlassRemote/releases/download/v0.4.0/glass-remote-0.4.0.jar)
-
 ## Usage
-
 * Make sure bluetooth is on.
 * Make sure your "real" My Glass app is not connected to Google Glass.
 * Download jar file and just double click it.
 
+## Download
+### Dec 14, 2013 
+[v0.5.0 Executable Jar File](https://github.com/thorikawa/GlassRemote/releases/download/v0.5.0/glass-remote-0.5.0.jar)
+
 ## Release Notes
-
-#### Dec 13, 2013 
-#### v0.4.0 is out!
-
-See [Release page](https://github.com/thorikawa/GlassRemote/releases) for more detail.
+See [Release page](https://github.com/thorikawa/GlassRemote/releases).
 
 ## Future Plan
 * Full screen support
