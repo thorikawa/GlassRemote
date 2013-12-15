@@ -103,11 +103,11 @@ public class GlassMessagingUtil {
     }
 
     public static final List<Envelope> getSwipeLeftEvents() {
-        return getSwipeEvents(20.000F, 50.0F, 60.000F, 50.0F);
+        return getSwipeEvents(30.000F, 50.0F, 50.000F, 50.0F);
     }
 
     public static final List<Envelope> getSwipeRightEvents() {
-        return getSwipeEvents(60.000F, 50.0F, 20.000F, 50.0F);
+        return getSwipeEvents(50.000F, 50.0F, 30.000F, 50.0F);
     }
 
     public static final List<Envelope> getTapEvents() {
