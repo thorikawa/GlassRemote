@@ -30,6 +30,7 @@ public class ScreencastPanel extends JPanel {
         setPreferredSize(new Dimension(mWidth, mHeight));
         addMouseListener(mMouseListener);
         addMouseMotionListener(mMouseMotionListener);
+        setFocusable(false);
     }
 
     @Override

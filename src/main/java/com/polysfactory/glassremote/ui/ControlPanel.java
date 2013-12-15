@@ -45,9 +45,8 @@ public class ControlPanel extends JPanel {
                 mGlassConnection.write(envelope);
             }
         });
-        add(sendButton);
 
-        final JButton tapButton = new JButton("TAP");
+        final JButton tapButton = new JButton("TAP (⇧⏎)");
         tapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +54,7 @@ public class ControlPanel extends JPanel {
                 mGlassConnection.writeAsync(envelopes);
             }
         });
-        final JButton swipeLeftButton = new JButton("SWIPE_LEFT");
+        final JButton swipeLeftButton = new JButton("SWIPE_LEFT (⇧←)");
         swipeLeftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +62,7 @@ public class ControlPanel extends JPanel {
                 mGlassConnection.writeAsync(envelopes);
             }
         });
-        final JButton swipeRightButton = new JButton("SWIPE_RIGHT");
+        final JButton swipeRightButton = new JButton("SWIPE_RIGHT (⇧→)");
         swipeRightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +70,7 @@ public class ControlPanel extends JPanel {
                 mGlassConnection.writeAsync(envelopes);
             }
         });
-        final JButton swipeDownButton = new JButton("SWIPE_DOWN");
+        final JButton swipeDownButton = new JButton("SWIPE_DOWN (⇧↓)");
         swipeDownButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

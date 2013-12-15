@@ -23,6 +23,7 @@ public class InfoPanel extends JPanel {
         textArea = new JTextArea();
         textArea.setBounds(5, 5, 630, 30);
         textArea.setEditable(false);
+        textArea.setFocusable(false);
 
         layout.setHorizontalGroup(layout.createParallelGroup().addComponent(textArea));
         layout.setVerticalGroup(layout.createSequentialGroup().addComponent(textArea));

@@ -18,8 +18,11 @@ package com.polysfactory.glassremote.ui;
 
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -80,6 +83,8 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
     private InfoPanel mInfoPanel;
 
     public MainFrame() {
+        setFocusable(true);
+
         mGlassConnection = new GlassConnection();
         mGlassConnection.registerListener(this);
 
@@ -90,6 +95,8 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
 
         addMouseListener(mMouseListener);
         addWindowListener(mWindowListener);
+        KeyboardFocusManager keyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        keyboardFocusManager.addKeyEventDispatcher(mKeyEventDispatcher);
 
         pack();
         setImage(null);
@@ -320,6 +327,35 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
         }
 
         public void windowActivated(WindowEvent arg0) {
+        }
+    };
+
+    private KeyEventDispatcher mKeyEventDispatcher = new KeyEventDispatcher() {
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+            if (e.getID() != KeyEvent.KEY_PRESSED) {
+                return false;
+            }
+            if ((e.getModifiers() & InputEvent.SHIFT_MASK) == 0) {
+                return false;
+            }
+            switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                mGlassConnection.writeAsync(GlassMessagingUtil.getSwipeLeftEvents());
+                break;
+            case KeyEvent.VK_RIGHT:
+                mGlassConnection.writeAsync(GlassMessagingUtil.getSwipeRightEvents());
+                break;
+            case KeyEvent.VK_DOWN:
+                mGlassConnection.writeAsync(GlassMessagingUtil.getSwipeDownEvents());
+                break;
+            case KeyEvent.VK_ENTER:
+                mGlassConnection.writeAsync(GlassMessagingUtil.getTapEvents());
+                break;
+            default:
+                break;
+            }
+            return false;
         }
     };
 
