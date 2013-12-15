@@ -47,6 +47,14 @@ public class ControlPanel extends JPanel {
         });
         add(sendButton);
 
+        final JButton tapButton = new JButton("TAP");
+        tapButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Envelope> envelopes = GlassMessagingUtil.getTapEvents();
+                mGlassConnection.writeAsync(envelopes);
+            }
+        });
         final JButton swipeLeftButton = new JButton("SWIPE_LEFT");
         swipeLeftButton.addActionListener(new ActionListener() {
             @Override
@@ -76,13 +84,13 @@ public class ControlPanel extends JPanel {
                 .createParallelGroup()
                 .addGroup(
                         layout.createSequentialGroup().addComponent(swipeLeftButton).addComponent(swipeRightButton)
-                                .addComponent(swipeDownButton))
+                                .addComponent(tapButton).addComponent(swipeDownButton))
                 .addGroup(layout.createSequentialGroup().addComponent(textArea).addComponent(sendButton)));
         layout.setVerticalGroup(layout
                 .createSequentialGroup()
                 .addGroup(
                         layout.createParallelGroup().addComponent(swipeLeftButton).addComponent(swipeRightButton)
-                                .addComponent(swipeDownButton))
+                                .addComponent(tapButton).addComponent(swipeDownButton))
                 .addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(textArea).addComponent(sendButton)));
 
     }

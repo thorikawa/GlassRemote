@@ -103,11 +103,23 @@ public class GlassMessagingUtil {
     }
 
     public static final List<Envelope> getSwipeLeftEvents() {
-        return getSwipeEvents(0.001F, 50.0F, 99.999F, 50.0F);
+        return getSwipeEvents(20.000F, 50.0F, 60.000F, 50.0F);
     }
 
     public static final List<Envelope> getSwipeRightEvents() {
-        return getSwipeEvents(99.999F, 50.0F, 0.001F, 50.0F);
+        return getSwipeEvents(60.000F, 50.0F, 20.000F, 50.0F);
+    }
+
+    public static final List<Envelope> getTapEvents() {
+        List<Envelope> res = new ArrayList<Envelope>();
+        float x = 33.3F;
+        float y = 50.0F;
+        long downTime = System.currentTimeMillis();
+        MotionEvent downEvent = convertMouseEvent2MotionEvent(ACTION_DOWN, x, y, downTime);
+        res.add(newMotionEventEnvelope(downEvent));
+        MotionEvent upEvent = convertMouseEvent2MotionEvent(ACTION_UP, x, y, downTime);
+        res.add(newMotionEventEnvelope(upEvent));
+        return res;
     }
 
     public static Envelope createTimelineMessage(String text) {
