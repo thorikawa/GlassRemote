@@ -17,7 +17,7 @@ GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bl
 
 ## Usage
 * Make sure bluetooth is on.
-* Make sure your "real" My Glass app is not connected to Google Glass.
+* Make sure My Glass app is not connected to your Google Glass.
 * Download jar file and just double click it.
 
 ## Download
