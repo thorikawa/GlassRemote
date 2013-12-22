@@ -380,7 +380,9 @@ public class MainFrame extends JFrame implements GlassConnectionListener, Screen
             GlassInfoResponse response = envelope.glassInfoResponseG2C;
             String info = "";
             info += "Device name: " + response.deviceName;
-            info += "  Battery: " + response.batteryLevel + "%\n";
+            info += " Battery: " + response.batteryLevel + "%";
+            info += " Software: " + response.softwareVersion;
+            info += "\n";
             info += "Storage: " + response.externalStorageAvailableBytes + "/" + response.externalStorageTotalBytes
                     + " bytes available";
             mInfoPanel.setText(info);

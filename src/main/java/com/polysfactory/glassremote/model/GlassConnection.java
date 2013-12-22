@@ -231,6 +231,7 @@ public class GlassConnection {
                 glassInfoRequest.requestBatteryLevel = true;
                 glassInfoRequest.requestStorageInfo = true;
                 glassInfoRequest.requestDeviceName = true;
+                glassInfoRequest.requestSoftwareVersion = true;
                 envelope2.glassInfoRequestC2G = glassInfoRequest;
                 write(envelope2);
 
