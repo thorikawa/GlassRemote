@@ -21,7 +21,7 @@ GlassRemote is Google Glass remote controller running on PC. GlassRemote uses Bl
 * Download jar file and just double click it.
 
 ## Download
-### Dec 14, 2013 
+### Dec 21, 2013 
 [v0.6.0 Executable Jar File](https://github.com/thorikawa/GlassRemote/releases/download/v0.6.0/glass-remote-0.6.0.jar)
 
 ## Release Notes
